@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: skillmark-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: skillmark
+      POSTGRES_USER: skillmark
+      POSTGRES_PASSWORD: skillmark
+    ports:
+      - "5432:5432"
+    volumes:
+      - skillmark-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skillmark -d skillmark"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  skillmark-postgres:
